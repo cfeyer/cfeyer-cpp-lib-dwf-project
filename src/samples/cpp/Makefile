@@ -1,4 +1,4 @@
-$(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/bin/device_enumeration: device_enumeration.cpp
+$(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/bin/device_enumeration_cpp: device_enumeration.cpp
 	$(CXX) -o $@ \
 		device_enumeration.cpp \
 		-I$(CFEYER_CPP_API_DWF_PROJECT_ROOT)/include \
