@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export CFEYER_CPP_API_DWF_PROJECT_ROOT="${PWD}/../cfeyer-cpp-api-dwf-project"
+export CFEYER_CPP_LIB_DWF_PROJECT_ROOT="${PWD}/"
+
+export PATH="${CFEYER_CPP_LIB_DWF_PROJECT_ROOT}/bin:${PATH}"
+export LD_LIBRARY_PATH="${CFEYER_CPP_LIB_DWF_PROJECT_ROOT}/lib:${LD_LIBRARY_PATH}"
