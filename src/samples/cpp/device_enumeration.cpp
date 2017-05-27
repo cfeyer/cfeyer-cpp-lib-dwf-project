@@ -22,14 +22,17 @@
 
 #include <iostream>
 
-#include <cfeyer/cpp_lib_dwf/Device_Enumerator.hpp>
+#include <cfeyer/cpp_lib_dwf/Library.hpp>
+#include <cfeyer/cpp_api_dwf/Device_Enumerator_Interface.hpp>
 #include <cfeyer/cpp_api_dwf/Device_Interface.hpp>
 #include <cfeyer/cpp_api_dwf/Open_Device_Interface.hpp>
 #include <cfeyer/cpp_api_dwf/Analog_Output_Channels_Interface.hpp>
 
 int main( int argc, char * argv[] )
 {
-   ::cfeyer::cpp_lib_dwf::Device_Enumerator device_enumerator;
+   ::cfeyer::cpp_lib_dwf::Library cpp_lib_dwf;
+
+   ::cfeyer::cpp_api_dwf::Device_Enumerator_Interface & device_enumerator = cpp_lib_dwf.get_device_enumerator();
 
    int device_count = device_enumerator.get_device_count();
 

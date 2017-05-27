@@ -20,37 +20,58 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <cfeyer/cpp_lib_dwf/Device_Enumerator.hpp>
+#include "Device_Enumerator.hpp"
 
-#include "Device_Enumerator_Implementation.hpp"
+#include <digilent/waveforms/dwf.h>
+
+#include "DWF_Call_Wrapper.hpp"
+#include "Device_Implementation.hpp"
 
 namespace cfeyer {
 namespace cpp_lib_dwf {
 
-Device_Enumerator::Device_Enumerator() :
-   mp_impl( new Device_Enumerator_Implementation() )
+Device_Enumerator::Device_Enumerator()
 {
+   scan();
 }
 
 
 Device_Enumerator::~Device_Enumerator()
 {
-   delete mp_impl;
-   mp_impl = nullptr;
+   while( m_device_ptrs.empty() == false )
+   {
+      Device_Implementation * & p_device = m_device_ptrs.back();
+      delete p_device;
+      p_device = nullptr;
+      m_device_ptrs.pop_back();
+   }
+}
+
+
+void Device_Enumerator::scan()
+{
+   int device_count = -1;
+   DWF_CALL_WRAPPER( FDwfEnum( enumfilterAll, &device_count ) );
+
+   for( int device_index = 0; device_index < device_count; device_index++ )
+   {
+      Device_Implementation * p_device = new Device_Implementation( device_index );
+      m_device_ptrs.push_back( p_device );
+   }
 }
 
 
 int Device_Enumerator::get_device_count() const
 {
-   return mp_impl->get_device_count();
+   return m_device_ptrs.size();
 }
 
 
 ::cfeyer::cpp_api_dwf::Device_Interface & Device_Enumerator::get_device( int device_index )
 {
-   return mp_impl->get_device( device_index );
+   return *( m_device_ptrs.at( device_index ) );
 }
 
 
-} // namspace cpp_lib_dwf
+} // namespace cpp_lib_dwf
 } // namespace cfeyer

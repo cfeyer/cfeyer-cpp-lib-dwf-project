@@ -20,58 +20,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "Device_Enumerator_Implementation.hpp"
+#ifndef CFEYER__CPP_LIB_DWF__LIBRARY_IMPLEMENTATION_HPP
+#define CFEYER__CPP_LIB_DWF__LIBRARY_IMPLEMENTATION_HPP
 
-#include <digilent/waveforms/dwf.h>
-
-#include "DWF_Call_Wrapper.hpp"
-#include "Device_Implementation.hpp"
+#include <cfeyer/cpp_api_dwf/Library_Interface.hpp>
 
 namespace cfeyer {
 namespace cpp_lib_dwf {
 
-Device_Enumerator_Implementation::Device_Enumerator_Implementation()
+class Device_Enumerator_Interface;
+
+class Library_Implementation : public ::cfeyer::cpp_api_dwf::Library_Interface
 {
-   scan();
-}
+   public:
 
+      Library_Implementation();
+      ~Library_Implementation();
 
-Device_Enumerator_Implementation::~Device_Enumerator_Implementation()
-{
-   while( m_device_ptrs.empty() == false )
-   {
-      Device_Implementation * & p_device = m_device_ptrs.back();
-      delete p_device;
-      p_device = nullptr;
-      m_device_ptrs.pop_back();
-   }
-}
+      Library_Implementation( const Library_Implementation & ) = delete;
+      Library_Implementation & operator = ( const Library_Implementation & ) = delete;
 
+      ::cfeyer::cpp_api_dwf::Device_Enumerator_Interface & get_device_enumerator() override;
 
-void Device_Enumerator_Implementation::scan()
-{
-   int device_count = -1;
-   DWF_CALL_WRAPPER( FDwfEnum( enumfilterAll, &device_count ) );
+   private:
 
-   for( int device_index = 0; device_index < device_count; device_index++ )
-   {
-      Device_Implementation * p_device = new Device_Implementation( device_index );
-      m_device_ptrs.push_back( p_device );
-   }
-}
+      ::cfeyer::cpp_api_dwf::Device_Enumerator_Interface * mp_device_enumerator;
 
-
-int Device_Enumerator_Implementation::get_device_count() const
-{
-   return m_device_ptrs.size();
-}
-
-
-::cfeyer::cpp_api_dwf::Device_Interface & Device_Enumerator_Implementation::get_device( int device_index )
-{
-   return *( m_device_ptrs.at( device_index ) );
-}
-
+};
 
 } // namespace cpp_lib_dwf
 } // namespace cfeyer
+
+#endif /* CFEYER__CPP_LIB_DWF__LIBRARY_IMPLEMENTATION_HPP */

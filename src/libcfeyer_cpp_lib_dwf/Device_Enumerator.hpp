@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CFEYER__CPP_LIB_DWF__DEVICE_ENUMERATOR_IMPLEMENTATION_HPP
-#define CFEYER__CPP_LIB_DWF__DEVICE_ENUMERATOR_IMPLEMENTATION_HPP
+#ifndef CFEYER__CPP_LIB_DWF__DEVICE_ENUMERATOR_HPP
+#define CFEYER__CPP_LIB_DWF__DEVICE_ENUMERATOR_HPP
 
 #include <cfeyer/cpp_api_dwf/Device_Enumerator_Interface.hpp>
 
@@ -32,15 +32,15 @@ namespace cpp_lib_dwf {
 
 class Device_Implementation;
 
-class Device_Enumerator_Implementation : public ::cfeyer::cpp_api_dwf::Device_Enumerator_Interface
+class Device_Enumerator : public ::cfeyer::cpp_api_dwf::Device_Enumerator_Interface
 {
    public:
 
-      Device_Enumerator_Implementation();
-      ~Device_Enumerator_Implementation();
+      Device_Enumerator();
+      ~Device_Enumerator();
 
-      Device_Enumerator_Implementation( const Device_Enumerator_Implementation & ) = delete;
-      Device_Enumerator_Implementation & operator = ( const Device_Enumerator_Implementation & ) = delete;
+      Device_Enumerator( const Device_Enumerator & ) = delete;
+      Device_Enumerator & operator = ( const Device_Enumerator & ) = delete;
 
       int get_device_count() const override;
       ::cfeyer::cpp_api_dwf::Device_Interface & get_device( int device_index ) override;
@@ -55,4 +55,4 @@ class Device_Enumerator_Implementation : public ::cfeyer::cpp_api_dwf::Device_En
 } // namespace cpp_lib_dwf
 } // namespace cfeyer
 
-#endif /* CFEYER__CPP_LIB_DWF__DEVICE_ENUMERATOR_IMPLEMENTATION_HPP */
+#endif /* CFEYER__CPP_LIB_DWF__DEVICE_ENUMERATOR_HPP */

@@ -20,10 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-$(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/lib/libcfeyer_cpp_lib_dwf.so: Device_Enumerator.cpp Device_Enumerator_Implementation.cpp DWF_Call_Exception.cpp Device_Implementation.cpp Analog_Output_Channel.cpp Analog_Output_Channels.cpp Open_Device.cpp
+$(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/lib/libcfeyer_cpp_lib_dwf.so: Device_Enumerator.cpp DWF_Call_Exception.cpp Device_Implementation.cpp Analog_Output_Channel.cpp Analog_Output_Channels.cpp Open_Device.cpp Library.cpp Library_Implementation.cpp
 	$(CXX) -o $@ \
 		-shared -fPIC \
-		Device_Enumerator.cpp Device_Enumerator_Implementation.cpp DWF_Call_Exception.cpp Device_Implementation.cpp Analog_Output_Channel.cpp Analog_Output_Channels.cpp Open_Device.cpp \
+		Device_Enumerator.cpp DWF_Call_Exception.cpp Device_Implementation.cpp Analog_Output_Channel.cpp Analog_Output_Channels.cpp Open_Device.cpp Library.cpp Library_Implementation.cpp \
 		-I$(CFEYER_CPP_API_DWF_PROJECT_ROOT)/include \
 		-I$(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/include \
 		-std=c++11 \

@@ -20,40 +20,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <iostream>
+#include "Library_Implementation.hpp"
 
-#include <cfeyer/cpp_lib_dwf/Library.hpp>
-#include <cfeyer/cpp_api_dwf/Device_Enumerator_Interface.hpp>
-#include <cfeyer/cpp_api_dwf/Device_Interface.hpp>
-#include <cfeyer/cpp_api_dwf/Open_Device_Interface.hpp>
+#include "Device_Enumerator.hpp"
 
-#include <iostream>
+namespace cfeyer {
+namespace cpp_lib_dwf {
 
-
-int main( int argc, char * argv[] )
+Library_Implementation::Library_Implementation() :
+   mp_device_enumerator( new Device_Enumerator() )
 {
-   ::cfeyer::cpp_lib_dwf::Library cpp_lib_dwf;
-
-   ::cfeyer::cpp_api_dwf::Device_Enumerator_Interface & device_enumerator = cpp_lib_dwf.get_device_enumerator();
-
-   constexpr int device_index = 0;
-   ::cfeyer::cpp_api_dwf::Device_Interface & device =
-         device_enumerator.get_device( device_index );
-
-   std::cerr << "name: " << device.get_name() << "\n"
-             << "user: "<< device.get_user_name() << "\n"
-             << "serial: " << device.get_serial_number() << "\n"
-             << "busy: " << device.is_busy()
-             << std::endl;
-
-   ::cfeyer::cpp_api_dwf::Open_Device_Interface * p_open_device = device.open();
-
-   constexpr int analog_in_sample_count = 1000;
-   double analog_in_samples[analog_in_sample_count] = {0.0};
-
-   
-   delete p_open_device;
-   p_open_device = nullptr;
-
-   return 0;
 }
+
+
+Library_Implementation::~Library_Implementation()
+{
+   delete mp_device_enumerator; mp_device_enumerator = nullptr;
+}
+
+
+::cfeyer::cpp_api_dwf::Device_Enumerator_Interface & Library_Implementation::get_device_enumerator()
+{
+   return *mp_device_enumerator;
+}
+
+
+} // namespace cpp_lib_dwf
+} // namespace cfeyer
