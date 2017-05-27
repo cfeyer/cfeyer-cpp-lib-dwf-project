@@ -20,43 +20,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT_CHANNELS_HPP
-#define CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT_CHANNELS_HPP
+#ifndef CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT__CHANNEL_HPP
+#define CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT__CHANNEL_HPP
 
-#include <cfeyer/cpp_api_dwf/Analog_Output_Channels_Interface.hpp>
-
-#include <vector>
-
+#include <cfeyer/cpp_api_dwf/analog_output/Channel_Interface.hpp>
 #include <digilent/waveforms/dwf.h>
 
 namespace cfeyer {
 namespace cpp_lib_dwf {
+namespace analog_output {
 
-class Analog_Output_Channel;
-
-class Analog_Output_Channels : public ::cfeyer::cpp_api_dwf::Analog_Output_Channels_Interface
+class Channel : public ::cfeyer::cpp_api_dwf::analog_output::Channel_Interface
 {
    public:
 
-      Analog_Output_Channels( HDWF device_descriptor );
-      ~Analog_Output_Channels();
+      Channel( HDWF device_descriptor, int channel_index );
+      ~Channel();
 
-      Analog_Output_Channels() = delete;
-      Analog_Output_Channels( const Analog_Output_Channels & ) = delete;
-      Analog_Output_Channels & operator = ( const Analog_Output_Channels & ) = delete;
+      Channel() = delete;
+      Channel( const Channel & ) = delete;
+      Channel & operator = ( const Channel & ) = delete;
 
-      int get_count() const override;
-      ::cfeyer::cpp_api_dwf::Analog_Output_Channel_Interface & get_channel( int channel_index ) override;
+      void enable() override;
+      void disable() override;
+      bool is_enabled() const override;
 
    private:
 
       const HDWF m_device_descriptor;
-
-      std::vector<Analog_Output_Channel *> m_channel_ptrs;
+      const int m_channel_index;
 
 };
 
+} // namespace analog_output
 } // namespace cpp_lib_dwf
 } // namespace cfeyer
 
-#endif /* CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT_CHANNELS_HPP */
+#endif /* CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT__CHANNEL_HPP */

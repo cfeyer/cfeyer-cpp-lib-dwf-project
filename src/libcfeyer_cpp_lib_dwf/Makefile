@@ -20,17 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-$(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/lib/libcfeyer_cpp_lib_dwf.so: Device_Enumerator.cpp DWF_Call_Exception.cpp Device.cpp Analog_Output_Channel.cpp Analog_Output_Channels.cpp Open_Device.cpp Library.cpp Library_Implementation.cpp
+$(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/lib/libcfeyer_cpp_lib_dwf.so:
 	$(CXX) -o $@ \
 		-shared -fPIC \
-		Device_Enumerator.cpp DWF_Call_Exception.cpp Device.cpp Analog_Output_Channel.cpp Analog_Output_Channels.cpp Open_Device.cpp Library.cpp Library_Implementation.cpp \
+		Device_Enumerator.cpp DWF_Call_Exception.cpp Device.cpp analog_output/Channel.cpp analog_output/Channels.cpp Open_Device.cpp Library.cpp Library_Implementation.cpp \
 		-I$(CFEYER_CPP_API_DWF_PROJECT_ROOT)/include \
 		-I$(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/include \
+		-I./ \
 		-std=c++11 \
 		-Wall -pedantic-errors -Wextra -Wno-unused-parameter -Werror -g \
 		-ldwf
 
-.PHONY = clean
+.PHONY = clean $(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/lib/libcfeyer_cpp_lib_dwf.so
 
 clean:
 	rm -f $(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/lib/libcfeyer_cpp_lib_dwf.so

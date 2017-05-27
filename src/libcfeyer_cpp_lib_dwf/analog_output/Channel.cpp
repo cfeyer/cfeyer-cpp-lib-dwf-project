@@ -20,39 +20,53 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT_CHANNEL_HPP
-#define CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT_CHANNEL_HPP
-
-#include <cfeyer/cpp_api_dwf/Analog_Output_Channel_Interface.hpp>
+#include "analog_output/Channel.hpp"
 
 #include <digilent/waveforms/dwf.h>
+#include "DWF_Call_Wrapper.hpp"
 
 namespace cfeyer {
 namespace cpp_lib_dwf {
+namespace analog_output {
 
-class Analog_Output_Channel : public ::cfeyer::cpp_api_dwf::Analog_Output_Channel_Interface
+Channel::Channel( HDWF device_descriptor,
+                  int channel_index ) :
+   m_device_descriptor( device_descriptor ),
+   m_channel_index( channel_index )
 {
-   public:
+}
 
-      Analog_Output_Channel( HDWF device_descriptor, int channel_index );
-      ~Analog_Output_Channel();
 
-      Analog_Output_Channel() = delete;
-      Analog_Output_Channel( const Analog_Output_Channel & ) = delete;
-      Analog_Output_Channel & operator = ( const Analog_Output_Channel & ) = delete;
+Channel::~Channel()
+{
+   disable();
+}
 
-      void enable() override;
-      void disable() override;
-      bool is_enabled() const override;
 
-   private:
+void Channel::enable()
+{
+   DWF_CALL_WRAPPER( FDwfAnalogOutNodeEnableSet( m_device_descriptor,
+                                                 m_channel_index,
+                                                 AnalogOutNodeCarrier,
+                                                 true ) );
+}
 
-      const HDWF m_device_descriptor;
-      const int m_channel_index;
 
-};
+void Channel::disable()
+{
+   DWF_CALL_WRAPPER( FDwfAnalogOutNodeEnableSet( m_device_descriptor,
+                                                 m_channel_index,
+                                                 AnalogOutNodeCarrier,
+                                                 false ) );
+}
 
+
+bool Channel::is_enabled() const
+{
+   return false;
+}
+
+
+} // namespace analog_output
 } // namespace cpp_lib_dwf
 } // namespace cfeyer
-
-#endif /* CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT_CHANNEL_HPP */

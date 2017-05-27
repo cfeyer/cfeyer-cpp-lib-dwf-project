@@ -20,46 +20,55 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "Analog_Output_Channel.hpp"
+#include "Channels.hpp"
 
 #include <digilent/waveforms/dwf.h>
-
 #include "DWF_Call_Wrapper.hpp"
+
+#include "analog_output/Channel.hpp"
 
 namespace cfeyer {
 namespace cpp_lib_dwf {
+namespace analog_output {
 
-Analog_Output_Channel::Analog_Output_Channel( HDWF device_descriptor,
-                                              int channel_index ) :
-   m_device_descriptor( device_descriptor ),
-   m_channel_index( channel_index )
+Channels::Channels( HDWF device_descriptor ) :
+   m_device_descriptor( device_descriptor )
 {
+   int channel_count = 0;
+   DWF_CALL_WRAPPER( FDwfAnalogOutCount( m_device_descriptor, &channel_count ) );
+
+   for( int channel_index = 0; channel_index < channel_count; channel_index++ )
+   {
+      Channel * p_channel = new Channel( m_device_descriptor, channel_index );
+      m_channel_ptrs.push_back( p_channel );
+   }
 }
 
 
-Analog_Output_Channel::~Analog_Output_Channel()
+Channels::~Channels()
 {
-   disable();
+   while( m_channel_ptrs.empty() == false )
+   {
+      Channel * & p_channel = m_channel_ptrs.back();
+      delete p_channel;
+      p_channel = nullptr;
+      m_channel_ptrs.pop_back();
+   }
 }
 
 
-void Analog_Output_Channel::enable()
+int Channels::get_count() const
 {
-//   DWF_CALL_WRAPPER( FDwfEnum( enumfilterAll, &device_count ) );
+   return m_channel_ptrs.size();
 }
 
 
-void Analog_Output_Channel::disable()
+::cfeyer::cpp_api_dwf::analog_output::Channel_Interface & Channels::get_channel( int channel_index )
 {
-//   DWF_CALL_WRAPPER( FDwfEnum( enumfilterAll, &device_count ) );
+   return *( m_channel_ptrs.at( channel_index ) );
 }
 
 
-bool Analog_Output_Channel::is_enabled() const
-{
-   return false;
-}
-
-
+} // namespace analog_output
 } // namespace cpp_lib_dwf
 } // namespace cfeyer

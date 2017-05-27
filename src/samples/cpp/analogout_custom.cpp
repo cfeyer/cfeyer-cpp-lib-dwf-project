@@ -26,7 +26,9 @@
 #include <cfeyer/cpp_api_dwf/Device_Enumerator_Interface.hpp>
 #include <cfeyer/cpp_api_dwf/Device_Interface.hpp>
 #include <cfeyer/cpp_api_dwf/Open_Device_Interface.hpp>
-#include <cfeyer/cpp_api_dwf/analog_output/Channels_Interface.hpp>
+
+#include <iostream>
+
 
 int main( int argc, char * argv[] )
 {
@@ -34,31 +36,28 @@ int main( int argc, char * argv[] )
 
    ::cfeyer::cpp_api_dwf::Device_Enumerator_Interface & device_enumerator = cpp_lib_dwf.get_device_enumerator();
 
-   int device_count = device_enumerator.get_device_count();
-
-   std::cout << "Device count: " << device_count << std::endl;
-
-   for( int device_index = 0; device_index < device_count; device_index++ )
-   {
-      std::cout << "device index " << device_index << ":" << std::endl;
-
-      ::cfeyer::cpp_api_dwf::Device_Interface & device =
+   constexpr int device_index = 0;
+   ::cfeyer::cpp_api_dwf::Device_Interface & device =
          device_enumerator.get_device( device_index );
 
-      std::cout << "name: " << device.get_name() << "\n"
-                << "user: "<< device.get_user_name() << "\n"
-                << "serial: " << device.get_serial_number() << "\n"
-                << "busy: " << device.is_busy()
-                << std::endl;
+   std::cerr << "name: " << device.get_name() << "\n"
+             << "user: "<< device.get_user_name() << "\n"
+             << "serial: " << device.get_serial_number() << "\n"
+             << "busy: " << device.is_busy()
+             << std::endl;
 
-      ::cfeyer::cpp_api_dwf::Open_Device_Interface * p_open_device = device.open();
+   ::cfeyer::cpp_api_dwf::Open_Device_Interface * p_open_device = device.open();
 
-      ::cfeyer::cpp_api_dwf::analog_output::Channels_Interface & analog_outputs = p_open_device->get_analog_outputs();
-      std::cout << "analog output channels: " << analog_outputs.get_count() << std::endl;
-
-      delete p_open_device;
-      p_open_device = nullptr;
+   constexpr int analog_out_sample_count = 4096;
+   double analog_out_samples[analog_out_sample_count];
+   for( int n = 0; n < analog_out_sample_count; n++ )
+   {
+      analog_out_samples[n] = 2.0*n/4095-1;
    }
+
+   
+   delete p_open_device;
+   p_open_device = nullptr;
 
    return 0;
 }

@@ -44,7 +44,7 @@ class Open_Device : public ::cfeyer::cpp_lib_dwf::Device,
       Open_Device( const Open_Device & ) = delete;
       Open_Device & operator = ( const Open_Device & ) = delete;
 
-      ::cfeyer::cpp_api_dwf::Analog_Output_Channels_Interface & get_analog_outputs();
+      ::cfeyer::cpp_api_dwf::analog_output::Channels_Interface & get_analog_outputs();
 
    private:
 
@@ -53,7 +53,7 @@ class Open_Device : public ::cfeyer::cpp_lib_dwf::Device,
       static HDWF open( int device_index );
       void close();
 
-      ::cfeyer::cpp_api_dwf::Analog_Output_Channels_Interface * mp_analog_outputs;
+      ::cfeyer::cpp_api_dwf::analog_output::Channels_Interface * mp_analog_outputs;
 };
 
 } // namespace cpp_lib_dwf

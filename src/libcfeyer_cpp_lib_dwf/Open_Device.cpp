@@ -26,7 +26,7 @@
 
 #include "DWF_Call_Wrapper.hpp"
 
-#include "Analog_Output_Channels.hpp"
+#include "analog_output/Channels.hpp"
 
 
 namespace cfeyer {
@@ -35,7 +35,7 @@ namespace cpp_lib_dwf {
 Open_Device::Open_Device( int device_index ) :
    Device( device_index ),
    m_device_descriptor( open( m_device_index ) ),
-   mp_analog_outputs( new Analog_Output_Channels( m_device_descriptor ) )
+   mp_analog_outputs( new ::cfeyer::cpp_lib_dwf::analog_output::Channels( m_device_descriptor ) )
 {
 }
 
@@ -63,7 +63,7 @@ void Open_Device::close()
 }
 
 
-::cfeyer::cpp_api_dwf::Analog_Output_Channels_Interface & Open_Device::get_analog_outputs()
+::cfeyer::cpp_api_dwf::analog_output::Channels_Interface & Open_Device::get_analog_outputs()
 {
    return *mp_analog_outputs;
 }

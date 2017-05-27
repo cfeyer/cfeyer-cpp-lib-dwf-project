@@ -20,53 +20,45 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "Analog_Output_Channels.hpp"
+#ifndef CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT__CHANNELS_HPP
+#define CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT__CHANNELS_HPP
+
+#include <cfeyer/cpp_api_dwf/analog_output/Channels_Interface.hpp>
+
+#include <vector>
 
 #include <digilent/waveforms/dwf.h>
-#include "DWF_Call_Wrapper.hpp"
-
-#include "Analog_Output_Channel.hpp"
 
 namespace cfeyer {
 namespace cpp_lib_dwf {
+namespace analog_output {
 
-Analog_Output_Channels::Analog_Output_Channels( HDWF device_descriptor ) :
-   m_device_descriptor( device_descriptor )
+class Channel;
+
+class Channels : public ::cfeyer::cpp_api_dwf::analog_output::Channels_Interface
 {
-   int channel_count = 0;
-   DWF_CALL_WRAPPER( FDwfAnalogOutCount( m_device_descriptor, &channel_count ) );
+   public:
 
-   for( int channel_index = 0; channel_index < channel_count; channel_index++ )
-   {
-      Analog_Output_Channel * p_channel = new Analog_Output_Channel( m_device_descriptor, channel_index );
-      m_channel_ptrs.push_back( p_channel );
-   }
-}
+      Channels( HDWF device_descriptor );
+      ~Channels();
 
+      Channels() = delete;
+      Channels( const Channels & ) = delete;
+      Channels & operator = ( const Channels & ) = delete;
 
-Analog_Output_Channels::~Analog_Output_Channels()
-{
-   while( m_channel_ptrs.empty() == false )
-   {
-      Analog_Output_Channel * & p_channel = m_channel_ptrs.back();
-      delete p_channel;
-      p_channel = nullptr;
-      m_channel_ptrs.pop_back();
-   }
-}
+      int get_count() const override;
+      ::cfeyer::cpp_api_dwf::analog_output::Channel_Interface & get_channel( int channel_index ) override;
 
+   private:
 
-int Analog_Output_Channels::get_count() const
-{
-   return m_channel_ptrs.size();
-}
+      const HDWF m_device_descriptor;
 
+      std::vector<Channel *> m_channel_ptrs;
 
-::cfeyer::cpp_api_dwf::Analog_Output_Channel_Interface & Analog_Output_Channels::get_channel( int channel_index )
-{
-   return *( m_channel_ptrs.at( channel_index ) );
-}
+};
 
-
+} // namespace analog_output
 } // namespace cpp_lib_dwf
 } // namespace cfeyer
+
+#endif /* CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT__CHANNELS_HPP */
