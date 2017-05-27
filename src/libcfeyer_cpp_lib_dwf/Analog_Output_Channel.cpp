@@ -25,7 +25,6 @@
 #include <digilent/waveforms/dwf.h>
 
 #include "DWF_Call_Wrapper.hpp"
-#include "Device_Implementation.hpp"
 
 namespace cfeyer {
 namespace cpp_lib_dwf {

@@ -24,7 +24,7 @@
 #define CFEYER__CPP_LIB_DWF__OPEN_DEVICE_HPP
 
 #include <cfeyer/cpp_api_dwf/Open_Device_Interface.hpp>
-#include "Device_Implementation.hpp"
+#include "Device.hpp"
 
 #include <digilent/waveforms/dwf.h>
 
@@ -32,7 +32,7 @@ namespace cfeyer {
 
 namespace cpp_lib_dwf {
 
-class Open_Device : public ::cfeyer::cpp_lib_dwf::Device_Implementation,
+class Open_Device : public ::cfeyer::cpp_lib_dwf::Device,
                     public ::cfeyer::cpp_api_dwf::Open_Device_Interface
 {
    public:

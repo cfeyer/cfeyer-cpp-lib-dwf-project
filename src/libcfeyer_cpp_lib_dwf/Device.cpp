@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "Device_Implementation.hpp"
+#include "Device.hpp"
 
 #include <iostream>
 
@@ -32,18 +32,18 @@
 namespace cfeyer {
 namespace cpp_lib_dwf {
 
-Device_Implementation::Device_Implementation( int device_index ) :
+Device::Device( int device_index ) :
    m_device_index( device_index )
 {
 }
 
 
-Device_Implementation::~Device_Implementation()
+Device::~Device()
 {
 }
 
 
-std::string Device_Implementation::get_name() const
+std::string Device::get_name() const
 {
    char buffer[32] = { '\0' };
    DWF_CALL_WRAPPER( FDwfEnumDeviceName( m_device_index, buffer ) );
@@ -53,7 +53,7 @@ std::string Device_Implementation::get_name() const
 }
 
 
-std::string Device_Implementation::get_user_name() const
+std::string Device::get_user_name() const
 {
    char buffer[32] = { '\0' };
    DWF_CALL_WRAPPER( FDwfEnumUserName( m_device_index, buffer ) );
@@ -63,7 +63,7 @@ std::string Device_Implementation::get_user_name() const
 }
 
 
-std::string Device_Implementation::get_serial_number() const
+std::string Device::get_serial_number() const
 {
    char buffer[32] = { '\0' };
    DWF_CALL_WRAPPER( FDwfEnumSN( m_device_index, buffer ) );
@@ -73,7 +73,7 @@ std::string Device_Implementation::get_serial_number() const
 }
 
 
-bool Device_Implementation::is_busy() const
+bool Device::is_busy() const
 {
    BOOL buffer = 0;
    DWF_CALL_WRAPPER( FDwfEnumDeviceIsOpened( m_device_index, &buffer ) );
@@ -82,7 +82,7 @@ bool Device_Implementation::is_busy() const
 }
 
 
-::cfeyer::cpp_api_dwf::Open_Device_Interface * Device_Implementation::open()
+::cfeyer::cpp_api_dwf::Open_Device_Interface * Device::open()
 {
    return new Open_Device( m_device_index );
 }

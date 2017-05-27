@@ -25,7 +25,7 @@
 #include <digilent/waveforms/dwf.h>
 
 #include "DWF_Call_Wrapper.hpp"
-#include "Device_Implementation.hpp"
+#include "Device.hpp"
 
 namespace cfeyer {
 namespace cpp_lib_dwf {
@@ -40,7 +40,7 @@ Device_Enumerator::~Device_Enumerator()
 {
    while( m_device_ptrs.empty() == false )
    {
-      Device_Implementation * & p_device = m_device_ptrs.back();
+      Device * & p_device = m_device_ptrs.back();
       delete p_device;
       p_device = nullptr;
       m_device_ptrs.pop_back();
@@ -55,7 +55,7 @@ void Device_Enumerator::scan()
 
    for( int device_index = 0; device_index < device_count; device_index++ )
    {
-      Device_Implementation * p_device = new Device_Implementation( device_index );
+      Device * p_device = new Device( device_index );
       m_device_ptrs.push_back( p_device );
    }
 }

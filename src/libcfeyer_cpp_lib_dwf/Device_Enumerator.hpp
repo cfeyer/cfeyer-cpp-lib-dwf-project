@@ -30,7 +30,7 @@
 namespace cfeyer {
 namespace cpp_lib_dwf {
 
-class Device_Implementation;
+class Device;
 
 class Device_Enumerator : public ::cfeyer::cpp_api_dwf::Device_Enumerator_Interface
 {
@@ -49,7 +49,7 @@ class Device_Enumerator : public ::cfeyer::cpp_api_dwf::Device_Enumerator_Interf
 
       void scan();
 
-      std::vector<Device_Implementation *> m_device_ptrs;
+      std::vector<Device *> m_device_ptrs;
 };
 
 } // namespace cpp_lib_dwf

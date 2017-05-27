@@ -33,7 +33,7 @@ namespace cfeyer {
 namespace cpp_lib_dwf {
 
 Open_Device::Open_Device( int device_index ) :
-   Device_Implementation( device_index ),
+   Device( device_index ),
    m_device_descriptor( open( m_device_index ) ),
    mp_analog_outputs( new Analog_Output_Channels( m_device_descriptor ) )
 {

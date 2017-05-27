@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CFEYER__CPP_LIB_DWF__DEVICE_IMPLEMENTATION_HPP
-#define CFEYER__CPP_LIB_DWF__DEVICE_IMPLEMENTATION_HPP
+#ifndef CFEYER__CPP_LIB_DWF__DEVICE_HPP
+#define CFEYER__CPP_LIB_DWF__DEVICE_HPP
 
 #include <cfeyer/cpp_api_dwf/Device_Interface.hpp>
 
@@ -29,16 +29,16 @@ namespace cfeyer {
 
 namespace cpp_lib_dwf {
 
-class Device_Implementation : virtual public ::cfeyer::cpp_api_dwf::Device_Interface
+class Device : virtual public ::cfeyer::cpp_api_dwf::Device_Interface
 {
    public:
 
-      Device_Implementation( int device_index );
-      virtual ~Device_Implementation();
+      Device( int device_index );
+      virtual ~Device();
 
-      Device_Implementation() = delete;
-      Device_Implementation( const Device_Implementation & ) = delete;
-      Device_Implementation & operator = ( const Device_Implementation & ) = delete;
+      Device() = delete;
+      Device( const Device & ) = delete;
+      Device & operator = ( const Device & ) = delete;
 
       std::string get_name() const override;
       std::string get_user_name() const override;
@@ -55,4 +55,4 @@ class Device_Implementation : virtual public ::cfeyer::cpp_api_dwf::Device_Inter
 } // namespace cpp_lib_dwf
 } // namespace cfeyer
 
-#endif /* CFEYER__CPP_LIB_DWF__DEVICE_IMPLEMENTATION_HPP */
+#endif /* CFEYER__CPP_LIB_DWF__DEVICE_HPP */
