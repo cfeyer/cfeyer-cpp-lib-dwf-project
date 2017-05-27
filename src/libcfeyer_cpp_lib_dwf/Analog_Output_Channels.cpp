@@ -20,71 +20,51 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "Device_Implementation.hpp"
+#include "Analog_Output_Channels.hpp"
 
-#include <iostream>
-
+#include <digilent/waveforms/dwf.h>
 #include "DWF_Call_Wrapper.hpp"
 
-#include "Open_Device.hpp"
-
+#include "Analog_Output_Channel.hpp"
 
 namespace cfeyer {
 namespace cpp_lib_dwf {
 
-Device_Implementation::Device_Implementation( int device_index ) :
-   m_device_index( device_index )
+Analog_Output_Channels::Analog_Output_Channels( HDWF device_descriptor ) :
+   m_device_descriptor( device_descriptor )
 {
+   int channel_count = 0;
+   DWF_CALL_WRAPPER( FDwfAnalogOutCount( m_device_descriptor, &channel_count ) );
+
+   for( int channel_index = 0; channel_index < channel_count; channel_index++ )
+   {
+      Analog_Output_Channel * p_channel = new Analog_Output_Channel( m_device_descriptor, channel_index );
+      m_channel_ptrs.push_back( p_channel );
+   }
 }
 
 
-Device_Implementation::~Device_Implementation()
+Analog_Output_Channels::~Analog_Output_Channels()
 {
+   while( m_channel_ptrs.empty() == false )
+   {
+      Analog_Output_Channel * & p_channel = m_channel_ptrs.back();
+      delete p_channel;
+      p_channel = nullptr;
+      m_channel_ptrs.pop_back();
+   }
 }
 
 
-std::string Device_Implementation::get_name() const
+int Analog_Output_Channels::get_count() const
 {
-   char buffer[32] = { '\0' };
-   DWF_CALL_WRAPPER( FDwfEnumDeviceName( m_device_index, buffer ) );
-   buffer[31] = '\0';
-
-   return buffer;
+   return m_channel_ptrs.size();
 }
 
 
-std::string Device_Implementation::get_user_name() const
+::cfeyer::cpp_api_dwf::Analog_Output_Channel_Interface & Analog_Output_Channels::get_channel( int channel_index )
 {
-   char buffer[32] = { '\0' };
-   DWF_CALL_WRAPPER( FDwfEnumUserName( m_device_index, buffer ) );
-   buffer[31] = '\0';
-
-   return buffer;
-}
-
-
-std::string Device_Implementation::get_serial_number() const
-{
-   char buffer[32] = { '\0' };
-   DWF_CALL_WRAPPER( FDwfEnumSN( m_device_index, buffer ) );
-   buffer[31] = '\0';
-
-   return buffer;
-}
-
-
-bool Device_Implementation::is_busy() const
-{
-   BOOL buffer = 0;
-   DWF_CALL_WRAPPER( FDwfEnumDeviceIsOpened( m_device_index, &buffer ) );
-
-   return ( buffer ? true : false );
-}
-
-
-::cfeyer::cpp_api_dwf::Open_Device_Interface * Device_Implementation::open()
-{
-   return new Open_Device( m_device_index );
+   return *( m_channel_ptrs.at( channel_index ) );
 }
 
 

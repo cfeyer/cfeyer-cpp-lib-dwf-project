@@ -25,17 +25,16 @@
 
 #include <cfeyer/cpp_api_dwf/Device_Interface.hpp>
 
-#include <digilent/waveforms/dwf.h>
-
 namespace cfeyer {
+
 namespace cpp_lib_dwf {
 
-class Device_Implementation : public ::cfeyer::cpp_api_dwf::Device_Interface
+class Device_Implementation : virtual public ::cfeyer::cpp_api_dwf::Device_Interface
 {
    public:
 
       Device_Implementation( int device_index );
-      ~Device_Implementation();
+      virtual ~Device_Implementation();
 
       Device_Implementation() = delete;
       Device_Implementation( const Device_Implementation & ) = delete;
@@ -46,14 +45,11 @@ class Device_Implementation : public ::cfeyer::cpp_api_dwf::Device_Interface
       std::string get_serial_number() const override;
 
       bool is_busy() const override;
-      void open() override;
-      void close() override;
+      ::cfeyer::cpp_api_dwf::Open_Device_Interface * open() override;
 
-   private:
+   protected:
 
       const int m_device_index;
-      HDWF m_device_descriptor;
-
 };
 
 } // namespace cpp_lib_dwf

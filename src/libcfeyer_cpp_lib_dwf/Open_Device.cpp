@@ -20,72 +20,54 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "Device_Implementation.hpp"
+#include "Open_Device.hpp"
 
 #include <iostream>
 
 #include "DWF_Call_Wrapper.hpp"
 
-#include "Open_Device.hpp"
+#include "Analog_Output_Channels.hpp"
 
 
 namespace cfeyer {
 namespace cpp_lib_dwf {
 
-Device_Implementation::Device_Implementation( int device_index ) :
-   m_device_index( device_index )
+Open_Device::Open_Device( int device_index ) :
+   Device_Implementation( device_index ),
+   m_device_descriptor( open( m_device_index ) ),
+   mp_analog_outputs( new Analog_Output_Channels( m_device_descriptor ) )
 {
 }
 
 
-Device_Implementation::~Device_Implementation()
+Open_Device::~Open_Device()
 {
+   delete mp_analog_outputs;
+   mp_analog_outputs = nullptr;
+
+   close();
 }
 
 
-std::string Device_Implementation::get_name() const
+HDWF Open_Device::open( int device_index )
 {
-   char buffer[32] = { '\0' };
-   DWF_CALL_WRAPPER( FDwfEnumDeviceName( m_device_index, buffer ) );
-   buffer[31] = '\0';
-
-   return buffer;
+   HDWF device_descriptor = hdwfNone;
+   DWF_CALL_WRAPPER( FDwfDeviceOpen( device_index, &device_descriptor ) );
+   return device_descriptor;
 }
 
 
-std::string Device_Implementation::get_user_name() const
+void Open_Device::close()
 {
-   char buffer[32] = { '\0' };
-   DWF_CALL_WRAPPER( FDwfEnumUserName( m_device_index, buffer ) );
-   buffer[31] = '\0';
-
-   return buffer;
+   DWF_CALL_WRAPPER( FDwfDeviceClose( m_device_descriptor ) );
 }
 
 
-std::string Device_Implementation::get_serial_number() const
+::cfeyer::cpp_api_dwf::Analog_Output_Channels_Interface & Open_Device::get_analog_outputs()
 {
-   char buffer[32] = { '\0' };
-   DWF_CALL_WRAPPER( FDwfEnumSN( m_device_index, buffer ) );
-   buffer[31] = '\0';
-
-   return buffer;
+   return *mp_analog_outputs;
 }
 
-
-bool Device_Implementation::is_busy() const
-{
-   BOOL buffer = 0;
-   DWF_CALL_WRAPPER( FDwfEnumDeviceIsOpened( m_device_index, &buffer ) );
-
-   return ( buffer ? true : false );
-}
-
-
-::cfeyer::cpp_api_dwf::Open_Device_Interface * Device_Implementation::open()
-{
-   return new Open_Device( m_device_index );
-}
 
 
 } // namespace cpp_lib_dwf
