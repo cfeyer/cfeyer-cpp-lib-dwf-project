@@ -81,7 +81,7 @@ bool Abstract_Signal_Component::is_enabled() const
 }
 
 
-void Abstract_Signal_Component::set_waveform_shape( ::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape_Enum waveform )
+void Abstract_Signal_Component::set_waveform_shape( ::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape::Enum waveform )
 {
    DWF_CALL_WRAPPER( FDwfAnalogOutNodeFunctionSet( m_device_descriptor,
                                                    m_channel_index,
@@ -90,7 +90,7 @@ void Abstract_Signal_Component::set_waveform_shape( ::cfeyer::cpp_api_dwf::analo
 }
 
 
-::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape_Enum Abstract_Signal_Component::get_waveform_shape() const
+::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape::Enum Abstract_Signal_Component::get_waveform_shape() const
 {
    FUNC buffer = funcDC;
 

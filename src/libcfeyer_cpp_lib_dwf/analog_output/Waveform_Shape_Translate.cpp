@@ -28,7 +28,7 @@ namespace cfeyer {
 namespace cpp_lib_dwf {
 namespace analog_output {
 
-FUNC Waveform_Shape_Translate::to_dwf( ::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape_Enum x )
+FUNC Waveform_Shape_Translate::to_dwf( ::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape::Enum x )
 {
    using namespace ::cfeyer::cpp_api_dwf::analog_output;
 
@@ -36,15 +36,15 @@ FUNC Waveform_Shape_Translate::to_dwf( ::cfeyer::cpp_api_dwf::analog_output::Wav
 
    switch( x )
    {
-      case Waveform_Shape_Enum::constant:  y = funcDC;       break;
-      case Waveform_Shape_Enum::sinusoid:  y = funcSine;     break;
-      case Waveform_Shape_Enum::square:    y = funcSquare;   break;
-      case Waveform_Shape_Enum::triangle:  y = funcTriangle; break;
-      case Waveform_Shape_Enum::ramp_up:   y = funcRampUp;   break;
-      case Waveform_Shape_Enum::ramp_down: y = funcRampDown; break;
-      case Waveform_Shape_Enum::noise:     y = funcNoise;    break;
-      case Waveform_Shape_Enum::custom:    y = funcCustom;   break;
-      case Waveform_Shape_Enum::play:      y = funcPlay;     break;
+      case Waveform_Shape::constant:  y = funcDC;       break;
+      case Waveform_Shape::sinusoid:  y = funcSine;     break;
+      case Waveform_Shape::square:    y = funcSquare;   break;
+      case Waveform_Shape::triangle:  y = funcTriangle; break;
+      case Waveform_Shape::ramp_up:   y = funcRampUp;   break;
+      case Waveform_Shape::ramp_down: y = funcRampDown; break;
+      case Waveform_Shape::noise:     y = funcNoise;    break;
+      case Waveform_Shape::custom:    y = funcCustom;   break;
+      case Waveform_Shape::play:      y = funcPlay;     break;
       default: throw std::invalid_argument( __PRETTY_FUNCTION__ );
    }
 
@@ -52,23 +52,23 @@ FUNC Waveform_Shape_Translate::to_dwf( ::cfeyer::cpp_api_dwf::analog_output::Wav
 }
 
 
-::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape_Enum Waveform_Shape_Translate::from_dwf( FUNC x )
+::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape::Enum Waveform_Shape_Translate::from_dwf( FUNC x )
 {
    using namespace ::cfeyer::cpp_api_dwf::analog_output;
 
-   Waveform_Shape_Enum y = Waveform_Shape_Enum::constant;
+   Waveform_Shape::Enum y = Waveform_Shape::Enum::constant;
 
    switch( x )
    {
-      case funcDC:       y = Waveform_Shape_Enum::constant;  break;
-      case funcSine:     y = Waveform_Shape_Enum::sinusoid;  break;
-      case funcSquare:   y = Waveform_Shape_Enum::square;    break;
-      case funcTriangle: y = Waveform_Shape_Enum::triangle;  break;
-      case funcRampUp:   y = Waveform_Shape_Enum::ramp_up;   break;
-      case funcRampDown: y = Waveform_Shape_Enum::ramp_down; break;
-      case funcNoise:    y = Waveform_Shape_Enum::noise;     break;
-      case funcCustom:   y = Waveform_Shape_Enum::custom;    break;
-      case funcPlay:     y = Waveform_Shape_Enum::play;      break;
+      case funcDC:       y = Waveform_Shape::constant;  break;
+      case funcSine:     y = Waveform_Shape::sinusoid;  break;
+      case funcSquare:   y = Waveform_Shape::square;    break;
+      case funcTriangle: y = Waveform_Shape::triangle;  break;
+      case funcRampUp:   y = Waveform_Shape::ramp_up;   break;
+      case funcRampDown: y = Waveform_Shape::ramp_down; break;
+      case funcNoise:    y = Waveform_Shape::noise;     break;
+      case funcCustom:   y = Waveform_Shape::custom;    break;
+      case funcPlay:     y = Waveform_Shape::play;      break;
       default: throw std::invalid_argument( __PRETTY_FUNCTION__ );
    }
 

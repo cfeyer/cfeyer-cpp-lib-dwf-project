@@ -38,8 +38,8 @@ class Waveform_Shape_Translate
       Waveform_Shape_Translate( const Waveform_Shape_Translate & ) = delete;
       Waveform_Shape_Translate & operator = ( const Waveform_Shape_Translate & ) = delete;
 
-      static FUNC to_dwf( ::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape_Enum x );
-      static ::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape_Enum from_dwf( FUNC y );
+      static FUNC to_dwf( ::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape::Enum x );
+      static ::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape::Enum from_dwf( FUNC y );
 };
 
 } // namespace analog_output
