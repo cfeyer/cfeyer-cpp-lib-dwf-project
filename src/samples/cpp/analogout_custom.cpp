@@ -21,13 +21,16 @@
 // SOFTWARE.
 
 #include <iostream>
+#include <unistd.h>
 
 #include <cfeyer/cpp_lib_dwf/Library.hpp>
 #include <cfeyer/cpp_api_dwf/Device_Enumerator_Interface.hpp>
 #include <cfeyer/cpp_api_dwf/Device_Interface.hpp>
 #include <cfeyer/cpp_api_dwf/Open_Device_Interface.hpp>
-
-#include <iostream>
+#include <cfeyer/cpp_api_dwf/analog_output/Channels_Interface.hpp>
+#include <cfeyer/cpp_api_dwf/analog_output/Channel_Interface.hpp>
+#include <cfeyer/cpp_api_dwf/analog_output/Carrier_Component_Interface.hpp>
+#include <cfeyer/cpp_api_dwf/analog_output/Waveform_Shape_Enum.hpp>
 
 
 int main( int argc, char * argv[] )
@@ -48,13 +51,28 @@ int main( int argc, char * argv[] )
 
    ::cfeyer::cpp_api_dwf::Open_Device_Interface * p_open_device = device.open();
 
-   constexpr int analog_out_sample_count = 4096;
-   double analog_out_samples[analog_out_sample_count];
-   for( int n = 0; n < analog_out_sample_count; n++ )
+   constexpr int sample_count = 4096;
+   double samples[sample_count];
+   for( int n = 0; n < sample_count; n++ )
    {
-      analog_out_samples[n] = 2.0*n/4095-1;
+      samples[n] = 2.0*n/4095-1;
    }
 
+   ::cfeyer::cpp_api_dwf::analog_output::Channel_Interface & ao1 =
+      p_open_device->get_analog_outputs().get_channel(0);
+
+   ::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface & ao1_carrier =
+      *(ao1.get_carrier_component());
+
+   ao1_carrier.enable();
+   ao1_carrier.set_waveform_shape( ::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape_Enum::custom );
+   ao1_carrier.write( samples, sample_count );
+   ao1_carrier.set_sample_frequency_hz( 10.0e3 );
+   ao1_carrier.set_amplitude_volts( 2.0 );
+
+   ao1.start();
+
+   for( unsigned int duration_seconds = 5; (duration_seconds = sleep( duration_seconds )) > 0; );
    
    delete p_open_device;
    p_open_device = nullptr;

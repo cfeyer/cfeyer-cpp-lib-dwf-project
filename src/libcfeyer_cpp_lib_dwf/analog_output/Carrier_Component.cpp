@@ -20,48 +20,51 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT__CHANNEL_HPP
-#define CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT__CHANNEL_HPP
-
-#include <cfeyer/cpp_api_dwf/analog_output/Channel_Interface.hpp>
+#include "analog_output/Carrier_Component.hpp"
 #include <digilent/waveforms/dwf.h>
+
+#include <cfeyer/cpp_api_dwf/analog_output/Waveform_Shape_Enum.hpp>
 
 namespace cfeyer {
 namespace cpp_lib_dwf {
 namespace analog_output {
 
-class Channel : public ::cfeyer::cpp_api_dwf::analog_output::Channel_Interface
+Carrier_Component::Carrier_Component( HDWF device_descriptor,
+                           int channel_index ) :
+   Abstract_Signal_Component( device_descriptor, channel_index, AnalogOutNodeCarrier )
 {
-   public:
+}
 
-      Channel( HDWF device_descriptor, int channel_index );
-      ~Channel();
 
-      Channel() = delete;
-      Channel( const Channel & ) = delete;
-      Channel & operator = ( const Channel & ) = delete;
+Carrier_Component::~Carrier_Component()
+{
+}
 
-      void start() override;
-      void stop() override;
-      void reset() override;
 
-      ::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface * get_carrier_component() const override;
+void Carrier_Component::set_amplitude_volts( double amplitude )
+{
+   set_amplitude( amplitude );
+}
 
-   private:
 
-      const HDWF m_device_descriptor;
-      const int m_channel_index;
+double Carrier_Component::get_amplitude_volts() const
+{
+   return get_amplitude();
+}
 
-      ::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface * mp_carrier_component;
 
-      ::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface * new_carrier_component();
+double Carrier_Component::get_min_amplitude_volts() const
+{
+   return get_min_amplitude();
+}
 
-      int query_node_info() const;
-      bool query_has_node( AnalogOutNode node_index ) const;
-};
+
+double Carrier_Component::get_max_amplitude_volts() const
+{
+   return get_max_amplitude();
+}
 
 } // namespace analog_output
 } // namespace cpp_lib_dwf
 } // namespace cfeyer
 
-#endif /* CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT__CHANNEL_HPP */

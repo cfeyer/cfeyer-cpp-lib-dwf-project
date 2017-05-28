@@ -24,6 +24,7 @@
 
 #include <digilent/waveforms/dwf.h>
 #include "DWF_Call_Wrapper.hpp"
+#include "analog_output/Carrier_Component.hpp"
 
 namespace cfeyer {
 namespace cpp_lib_dwf {
@@ -32,8 +33,22 @@ namespace analog_output {
 Channel::Channel( HDWF device_descriptor,
                   int channel_index ) :
    m_device_descriptor( device_descriptor ),
-   m_channel_index( channel_index )
+   m_channel_index( channel_index ),
+   mp_carrier_component( new_carrier_component() )
 {
+}
+
+
+::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface * Channel::new_carrier_component()
+{
+   ::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface * p_component = nullptr;
+
+   if( query_has_node( AnalogOutNodeCarrier ) )
+   {
+      p_component = new Carrier_Component( m_device_descriptor, m_channel_index ); //TODO Move test to Signal_Component ctor
+   }
+
+   return p_component;
 }
 
 
@@ -46,20 +61,12 @@ Channel::~Channel()
 void Channel::start()
 {
    DWF_CALL_WRAPPER( FDwfAnalogOutConfigure( m_device_descriptor, m_channel_index, true ) );
-//   DWF_CALL_WRAPPER( FDwfAnalogOutNodeEnableSet( m_device_descriptor,
-//                                                 m_channel_index,
-//                                                 AnalogOutNodeCarrier,
-//                                                 true ) );
 }
 
 
 void Channel::stop()
 {
    DWF_CALL_WRAPPER( FDwfAnalogOutConfigure( m_device_descriptor, m_channel_index, false ) );
-//   DWF_CALL_WRAPPER( FDwfAnalogOutNodeEnableSet( m_device_descriptor,
-//                                                 m_channel_index,
-//                                                 AnalogOutNodeCarrier,
-//                                                 false ) );
 }
 
 
@@ -68,6 +75,28 @@ void Channel::reset()
    DWF_CALL_WRAPPER( FDwfAnalogOutReset( m_device_descriptor, m_channel_index ) );
 }
 
+
+::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface * Channel::get_carrier_component() const
+{
+   return mp_carrier_component;
+}
+
+
+int Channel::query_node_info() const
+{
+   int buffer = 0;
+   DWF_CALL_WRAPPER( FDwfAnalogOutNodeInfo( m_device_descriptor,
+                                            m_channel_index,
+                                            &buffer ) );
+   return buffer;
+}
+
+
+bool Channel::query_has_node( AnalogOutNode node_index ) const
+{
+   int node_bitfield = query_node_info();
+   return IsBitSet( node_bitfield, node_index );
+}
 
 } // namespace analog_output
 } // namespace cpp_lib_dwf

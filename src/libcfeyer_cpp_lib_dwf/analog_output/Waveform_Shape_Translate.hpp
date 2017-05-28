@@ -20,48 +20,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT__CHANNEL_HPP
-#define CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT__CHANNEL_HPP
+#ifndef CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT__WAVEFORM_SHAPE_TRANSLATE_HPP
+#define CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT__WAVEFORM_SHAPE_TRANSLATE_HPP
 
-#include <cfeyer/cpp_api_dwf/analog_output/Channel_Interface.hpp>
+#include <cfeyer/cpp_api_dwf/analog_output/Waveform_Shape_Enum.hpp>
 #include <digilent/waveforms/dwf.h>
 
 namespace cfeyer {
 namespace cpp_lib_dwf {
 namespace analog_output {
 
-class Channel : public ::cfeyer::cpp_api_dwf::analog_output::Channel_Interface
+class Waveform_Shape_Translate 
 {
    public:
 
-      Channel( HDWF device_descriptor, int channel_index );
-      ~Channel();
+      Waveform_Shape_Translate() = delete;
+      Waveform_Shape_Translate( const Waveform_Shape_Translate & ) = delete;
+      Waveform_Shape_Translate & operator = ( const Waveform_Shape_Translate & ) = delete;
 
-      Channel() = delete;
-      Channel( const Channel & ) = delete;
-      Channel & operator = ( const Channel & ) = delete;
-
-      void start() override;
-      void stop() override;
-      void reset() override;
-
-      ::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface * get_carrier_component() const override;
-
-   private:
-
-      const HDWF m_device_descriptor;
-      const int m_channel_index;
-
-      ::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface * mp_carrier_component;
-
-      ::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface * new_carrier_component();
-
-      int query_node_info() const;
-      bool query_has_node( AnalogOutNode node_index ) const;
+      static FUNC to_dwf( ::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape_Enum x );
+      static ::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape_Enum from_dwf( FUNC y );
 };
 
 } // namespace analog_output
 } // namespace cpp_lib_dwf
 } // namespace cfeyer
 
-#endif /* CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT__CHANNEL_HPP */
+#endif /* CFEYER__CPP_LIB_DWF__ANALOG_OUTPUT__WAVEFORM_SHAPE_TRANSLATE_HPP */
