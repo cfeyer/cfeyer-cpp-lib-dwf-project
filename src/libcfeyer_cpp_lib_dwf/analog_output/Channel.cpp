@@ -39,31 +39,33 @@ Channel::Channel( HDWF device_descriptor,
 
 Channel::~Channel()
 {
-   disable();
+   stop();
 }
 
 
-void Channel::enable()
+void Channel::start()
 {
-   DWF_CALL_WRAPPER( FDwfAnalogOutNodeEnableSet( m_device_descriptor,
-                                                 m_channel_index,
-                                                 AnalogOutNodeCarrier,
-                                                 true ) );
+   DWF_CALL_WRAPPER( FDwfAnalogOutConfigure( m_device_descriptor, m_channel_index, true ) );
+//   DWF_CALL_WRAPPER( FDwfAnalogOutNodeEnableSet( m_device_descriptor,
+//                                                 m_channel_index,
+//                                                 AnalogOutNodeCarrier,
+//                                                 true ) );
 }
 
 
-void Channel::disable()
+void Channel::stop()
 {
-   DWF_CALL_WRAPPER( FDwfAnalogOutNodeEnableSet( m_device_descriptor,
-                                                 m_channel_index,
-                                                 AnalogOutNodeCarrier,
-                                                 false ) );
+   DWF_CALL_WRAPPER( FDwfAnalogOutConfigure( m_device_descriptor, m_channel_index, false ) );
+//   DWF_CALL_WRAPPER( FDwfAnalogOutNodeEnableSet( m_device_descriptor,
+//                                                 m_channel_index,
+//                                                 AnalogOutNodeCarrier,
+//                                                 false ) );
 }
 
 
-bool Channel::is_enabled() const
+void Channel::reset()
 {
-   return false;
+   DWF_CALL_WRAPPER( FDwfAnalogOutReset( m_device_descriptor, m_channel_index ) );
 }
 
 

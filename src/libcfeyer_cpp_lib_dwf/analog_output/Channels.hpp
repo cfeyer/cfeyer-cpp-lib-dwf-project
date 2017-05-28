@@ -49,6 +49,10 @@ class Channels : public ::cfeyer::cpp_api_dwf::analog_output::Channels_Interface
       int get_count() const override;
       ::cfeyer::cpp_api_dwf::analog_output::Channel_Interface & get_channel( int channel_index ) override;
 
+      void start_all() override;
+      void stop_all() override;
+      void reset_all() override;
+
    private:
 
       const HDWF m_device_descriptor;

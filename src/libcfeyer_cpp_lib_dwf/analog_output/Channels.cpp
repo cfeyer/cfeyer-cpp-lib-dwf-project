@@ -31,6 +31,8 @@ namespace cfeyer {
 namespace cpp_lib_dwf {
 namespace analog_output {
 
+static constexpr int all_channels_index = -1;
+
 Channels::Channels( HDWF device_descriptor ) :
    m_device_descriptor( device_descriptor )
 {
@@ -66,6 +68,24 @@ int Channels::get_count() const
 ::cfeyer::cpp_api_dwf::analog_output::Channel_Interface & Channels::get_channel( int channel_index )
 {
    return *( m_channel_ptrs.at( channel_index ) );
+}
+
+
+void Channels::start_all()
+{
+   DWF_CALL_WRAPPER( FDwfAnalogOutConfigure( m_device_descriptor, all_channels_index, true ) );
+}
+
+
+void Channels::stop_all()
+{
+   DWF_CALL_WRAPPER( FDwfAnalogOutConfigure( m_device_descriptor, all_channels_index, false ) );
+}
+
+
+void Channels::reset_all()
+{
+   DWF_CALL_WRAPPER( FDwfAnalogOutReset( m_device_descriptor, all_channels_index) );
 }
 
 

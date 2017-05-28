@@ -41,9 +41,9 @@ class Channel : public ::cfeyer::cpp_api_dwf::analog_output::Channel_Interface
       Channel( const Channel & ) = delete;
       Channel & operator = ( const Channel & ) = delete;
 
-      void enable() override;
-      void disable() override;
-      bool is_enabled() const override;
+      void start() override;
+      void stop() override;
+      void reset() override;
 
    private:
 
