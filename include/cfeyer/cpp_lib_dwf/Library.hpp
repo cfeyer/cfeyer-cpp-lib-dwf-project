@@ -36,12 +36,12 @@ class Library : public ::cfeyer::cpp_api_dwf::Library_Interface
       Library();
       ~Library();
 
-      Library( const Library & ) = delete;
-      Library & operator = ( const Library & ) = delete;
-
-      ::cfeyer::cpp_api_dwf::Device_Enumerator_Interface & get_device_enumerator() override;
+      ::cfeyer::cpp_api_dwf::Device_Enumerator_Interface & get_device_enumerator();
 
    private:
+
+      Library( const Library & ); // disallow
+      Library & operator = ( const Library & ); // disallow
 
       Library_Interface * mp_impl;
 };
