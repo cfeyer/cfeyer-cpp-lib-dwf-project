@@ -8,7 +8,7 @@ $(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/bin/device_enumeration_cpp: device_enumeratio
 		device_enumeration.cpp \
 		-I$(CFEYER_CPP_API_DWF_PROJECT_ROOT)/include \
 		-I$(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/include \
-		-std=c++11 \
+		-std=c++98 \
 		-Wall -pedantic-errors -Wextra -Wno-unused-parameter -Werror -g -Wno-unused-variable \
 		-lcfeyer_cpp_lib_dwf -L$(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/lib
 
@@ -17,7 +17,7 @@ $(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/bin/analogoutin_cpp: analogoutin.cpp
 		analogoutin.cpp \
 		-I$(CFEYER_CPP_API_DWF_PROJECT_ROOT)/include \
 		-I$(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/include \
-		-std=c++11 \
+		-std=c++98 \
 		-Wall -pedantic-errors -Wextra -Wno-unused-parameter -Werror -g -Wno-unused-variable \
 		-lcfeyer_cpp_lib_dwf -L$(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/lib
 
@@ -26,7 +26,7 @@ $(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/bin/analogout_custom_cpp: analogout_custom.cp
 		analogout_custom.cpp \
 		-I$(CFEYER_CPP_API_DWF_PROJECT_ROOT)/include \
 		-I$(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/include \
-		-std=c++11 \
+		-std=c++98 \
 		-Wall -pedantic-errors -Wextra -Wno-unused-parameter -Werror -g -Wno-unused-variable -Wno-unused-but-set-variable \
 		-lcfeyer_cpp_lib_dwf -L$(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/lib
 

@@ -39,7 +39,7 @@ int main( int argc, char * argv[] )
 
    ::cfeyer::cpp_api_dwf::Device_Enumerator_Interface & device_enumerator = cpp_lib_dwf.get_device_enumerator();
 
-   constexpr int device_index = 0;
+   const int device_index = 0;
    ::cfeyer::cpp_api_dwf::Device_Interface & device =
          device_enumerator.get_device( device_index );
 
@@ -51,7 +51,7 @@ int main( int argc, char * argv[] )
 
    ::cfeyer::cpp_api_dwf::Open_Device_Interface * p_open_device = device.open();
 
-   constexpr int sample_count = 4096;
+   const int sample_count = 4096;
    double samples[sample_count];
    for( int n = 0; n < sample_count; n++ )
    {
@@ -75,7 +75,7 @@ int main( int argc, char * argv[] )
    for( unsigned int duration_seconds = 5; (duration_seconds = sleep( duration_seconds )) > 0; );
    
    delete p_open_device;
-   p_open_device = nullptr;
+   p_open_device = 0;
 
    return 0;
 }

@@ -57,7 +57,7 @@ int main( int argc, char * argv[] )
       std::cout << "analog output channels: " << analog_outputs.get_count() << std::endl;
 
       delete p_open_device;
-      p_open_device = nullptr;
+      p_open_device = 0;
    }
 
    return 0;
