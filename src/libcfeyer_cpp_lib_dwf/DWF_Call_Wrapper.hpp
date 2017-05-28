@@ -26,7 +26,16 @@
 #include <digilent/waveforms/dwf.h>
 #include "DWF_Call_Exception.hpp"
 
-#define DWF_CALL_WRAPPER( EXPRESSION ) \
+
+//#define DWF_CALL_WRAPPER_PRINT
+
+
+#ifdef DWF_CALL_WRAPPER_PRINT
+   #include <iostream>
+#endif
+
+
+#define DWF_CALL_WRAPPER_GUTS( EXPRESSION ) \
 { \
    BOOL dwf_call_succeeded = ( EXPRESSION ); \
    if( !dwf_call_succeeded ) \
@@ -34,5 +43,20 @@
       throw ::cfeyer::cpp_lib_dwf::DWF_Call_Exception( #EXPRESSION ); \
    } \
 }
+
+
+#ifdef DWF_CALL_WRAPPER_PRINT
+   #define DWF_CALL_WRAPPER( EXPRESSION ) \
+   { \
+      std::cerr << #EXPRESSION << std::endl; \
+      DWF_CALL_WRAPPER_GUTS( EXPRESSION ); \
+   }
+#else
+   #define DWF_CALL_WRAPPER( EXPRESSION ) \
+   { \
+      DWF_CALL_WRAPPER_GUTS( EXPRESSION ); \
+   }
+#endif
+
 
 #endif /* CFEYER__CPP_LIB_DWF__DWF_CALL_WRAPPER_HPP */
