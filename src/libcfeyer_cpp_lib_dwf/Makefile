@@ -23,7 +23,7 @@
 $(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/lib/libcfeyer_cpp_lib_dwf.so:
 	$(CXX) -o $@ \
 		-shared -fPIC \
-		Device_Enumerator.cpp DWF_Call_Exception.cpp Device.cpp analog_output/Channel.cpp analog_output/Channels.cpp Open_Device.cpp Library.cpp Library_Implementation.cpp analog_output/Abstract_Signal_Component.cpp analog_output/Carrier_Component.cpp analog_output/Waveform_Shape_Translate.cpp \
+		Device_Enumerator.cpp DWF_Call_Exception.cpp Device.cpp analog_output/Channel.cpp analog_output/Channels.cpp Open_Device.cpp Library.cpp Library_Implementation.cpp analog_output/Abstract_Signal_Component.cpp analog_output/Carrier_Component.cpp analog_output/Waveform_Shape_Translate.cpp analog_output/Idle_Value_Translate.cpp \
 		-I$(CFEYER_CPP_API_DWF_PROJECT_ROOT)/include \
 		-I$(CFEYER_CPP_LIB_DWF_PROJECT_ROOT)/include \
 		-I./ \

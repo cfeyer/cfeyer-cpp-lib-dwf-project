@@ -25,6 +25,7 @@
 #include <digilent/waveforms/dwf.h>
 #include "DWF_Call_Wrapper.hpp"
 #include "analog_output/Carrier_Component.hpp"
+#include "analog_output/Idle_Value_Translate.hpp"
 
 namespace cfeyer {
 namespace cpp_lib_dwf {
@@ -80,6 +81,13 @@ void Channel::get_status()
 {
    DwfState state;
    DWF_CALL_WRAPPER( FDwfAnalogOutStatus( m_device_descriptor, m_channel_index, &state ) );
+}
+
+
+void Channel::set_idle_value( ::cfeyer::cpp_api_dwf::analog_output::Idle_Value::Enum idle_value )
+{
+   DwfAnalogOutIdle buffer = Idle_Value_Translate::to_dwf( idle_value );
+   DWF_CALL_WRAPPER( FDwfAnalogOutIdleSet( m_device_descriptor, m_channel_index, buffer ) );
 }
 
 

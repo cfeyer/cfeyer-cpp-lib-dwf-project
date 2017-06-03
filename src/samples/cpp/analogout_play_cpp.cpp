@@ -33,6 +33,7 @@
 #include <cfeyer/cpp_api_dwf/analog_output/Channel_Interface.hpp>
 #include <cfeyer/cpp_api_dwf/analog_output/Carrier_Component_Interface.hpp>
 #include <cfeyer/cpp_api_dwf/analog_output/Waveform_Shape_Enum.hpp>
+#include <cfeyer/cpp_api_dwf/analog_output/Idle_Value_Enum.hpp>
 
 
 int main( int argc, char * argv[] )
@@ -55,6 +56,8 @@ int main( int argc, char * argv[] )
 
    ::cfeyer::cpp_api_dwf::analog_output::Channel_Interface & ao1 =
       p_open_device->get_analog_outputs().get_channel(0);
+
+   ao1.set_idle_value( ::cfeyer::cpp_api_dwf::analog_output::Idle_Value::offset );
 
    ::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface & ao1_carrier =
       *(ao1.get_carrier_component());
@@ -119,6 +122,11 @@ int main( int argc, char * argv[] )
 
       sent_samples_count += next_send_samples_count;
    }
+
+   double termination_sample[] = { 0.0 };
+   ao1_carrier.set_data( termination_sample, 1 );
+
+//   pause();
    
    delete p_open_device;
    p_open_device = 0;

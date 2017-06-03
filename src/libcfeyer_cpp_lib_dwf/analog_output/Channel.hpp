@@ -47,6 +47,8 @@ class Channel : public ::cfeyer::cpp_api_dwf::analog_output::Channel_Interface
 
       void get_status() override;
 
+      void set_idle_value( ::cfeyer::cpp_api_dwf::analog_output::Idle_Value::Enum idle_value ) override;
+
       ::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface * get_carrier_component() const override;
 
       void set_repeat_count( int repeat_count ) override;
