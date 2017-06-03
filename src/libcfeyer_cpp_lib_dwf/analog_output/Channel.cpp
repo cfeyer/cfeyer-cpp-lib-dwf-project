@@ -82,6 +82,38 @@ void Channel::reset()
 }
 
 
+void Channel::set_repeat_count( int repeat_count )
+{
+   DWF_CALL_WRAPPER( FDwfAnalogOutRepeatSet( m_device_descriptor, m_channel_index, repeat_count ) );
+}
+
+
+int Channel::get_repeat_count() const
+{
+   int buffer = 0;
+   DWF_CALL_WRAPPER( FDwfAnalogOutRepeatGet( m_device_descriptor, m_channel_index, &buffer ) );
+   return buffer;
+}
+
+
+int Channel::get_min_repeat_count() const
+{
+   int min = 0;
+   int max = 0;
+   DWF_CALL_WRAPPER( FDwfAnalogOutRepeatInfo( m_device_descriptor, m_channel_index, &min, &max ) );
+   return min;
+}
+
+
+int Channel::get_max_repeat_count() const
+{
+   int min = 0;
+   int max = 0;
+   DWF_CALL_WRAPPER( FDwfAnalogOutRepeatInfo( m_device_descriptor, m_channel_index, &min, &max ) );
+   return max;
+}
+
+
 int Channel::query_node_info() const
 {
    int buffer = 0;

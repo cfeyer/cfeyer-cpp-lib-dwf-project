@@ -47,6 +47,11 @@ class Channel : public ::cfeyer::cpp_api_dwf::analog_output::Channel_Interface
 
       ::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface * get_carrier_component() const override;
 
+      void set_repeat_count( int repeat_count ) override;
+      int get_repeat_count() const override;
+      int get_min_repeat_count() const override;
+      int get_max_repeat_count() const override;
+
    private:
 
       const HDWF m_device_descriptor;
