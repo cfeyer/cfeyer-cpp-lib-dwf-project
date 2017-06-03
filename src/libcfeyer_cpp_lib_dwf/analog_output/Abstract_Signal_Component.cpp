@@ -135,7 +135,7 @@ int Abstract_Signal_Component::get_max_data_samples() const
 }
 
 
-void Abstract_Signal_Component::set_sample_frequency_hz( double frequency )
+void Abstract_Signal_Component::set_frequency_hz( double frequency )
 {
    DWF_CALL_WRAPPER( FDwfAnalogOutNodeFrequencySet( m_device_descriptor,
                                                     m_channel_index,
@@ -144,7 +144,7 @@ void Abstract_Signal_Component::set_sample_frequency_hz( double frequency )
 }
 
 
-double Abstract_Signal_Component::get_sample_frequency_hz() const
+double Abstract_Signal_Component::get_frequency_hz() const
 {
    double buffer = 0.0;
 
@@ -156,7 +156,7 @@ double Abstract_Signal_Component::get_sample_frequency_hz() const
 }
 
 
-double Abstract_Signal_Component::get_min_sample_frequency_hz() const
+double Abstract_Signal_Component::get_min_frequency_hz() const
 {
    double min = 0.0;
    double max = 0.0;
@@ -171,7 +171,7 @@ double Abstract_Signal_Component::get_min_sample_frequency_hz() const
 }
 
 
-double Abstract_Signal_Component::get_max_sample_frequency_hz() const
+double Abstract_Signal_Component::get_max_frequency_hz() const
 {
    double min = 0.0;
    double max = 0.0;
