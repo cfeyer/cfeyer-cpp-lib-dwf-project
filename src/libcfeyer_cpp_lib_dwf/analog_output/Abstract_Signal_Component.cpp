@@ -134,6 +134,28 @@ int Abstract_Signal_Component::get_max_data_samples() const
    return max;
 }
 
+void Abstract_Signal_Component::write_play_samples( double samples[], int sample_count )
+{
+   DWF_CALL_WRAPPER( FDwfAnalogOutNodePlayData( m_device_descriptor,
+                                                m_channel_index,
+                                                m_node_index,
+                                                samples,
+                                                sample_count ) );
+}
+
+
+void Abstract_Signal_Component::get_play_status( int & free_sample_count,
+                                                 int & lost_sample_count,
+                                                 int & corrupted_sample_count ) const
+{
+   DWF_CALL_WRAPPER( FDwfAnalogOutNodePlayStatus( m_device_descriptor,
+                                                  m_channel_index,
+                                                  m_node_index,
+                                                  &free_sample_count,
+                                                  &lost_sample_count,
+                                                  &corrupted_sample_count ) );
+}
+
 
 void Abstract_Signal_Component::set_frequency_hz( double frequency )
 {

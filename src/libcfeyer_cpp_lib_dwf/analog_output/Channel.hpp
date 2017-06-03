@@ -45,6 +45,8 @@ class Channel : public ::cfeyer::cpp_api_dwf::analog_output::Channel_Interface
       void stop() override;
       void reset() override;
 
+      void get_status() override;
+
       ::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface * get_carrier_component() const override;
 
       void set_repeat_count( int repeat_count ) override;

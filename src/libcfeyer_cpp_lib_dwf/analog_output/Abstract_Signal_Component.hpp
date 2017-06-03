@@ -59,6 +59,11 @@ class Abstract_Signal_Component : virtual public ::cfeyer::cpp_api_dwf::analog_o
       int get_min_data_samples() const override;
       int get_max_data_samples() const override;
 
+      void write_play_samples( double samples[], int sample_count ) override;
+      void get_play_status( int & free_sample_count,
+                            int & lost_sample_count,
+                            int & corrupted_sample_count ) const override;
+
       void set_frequency_hz( double frequency ) override;
       double get_frequency_hz() const override;
       double get_min_frequency_hz() const override;

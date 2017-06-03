@@ -22,6 +22,8 @@
 
 #include <iostream>
 #include <unistd.h>
+#include <math.h>
+#include <algorithm>
 
 #include <cfeyer/cpp_lib_dwf/Library.hpp>
 #include <cfeyer/cpp_api_dwf/Device_Enumerator_Interface.hpp>
@@ -57,25 +59,66 @@ int main( int argc, char * argv[] )
    ::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface & ao1_carrier =
       *(ao1.get_carrier_component());
 
-   std::cout << "min_data_samples = " << ao1_carrier.get_min_data_samples() << std::endl;
-   std::cout << "max_data_samples = " << ao1_carrier.get_max_data_samples() << std::endl;
+   ao1_carrier.enable();
+   ao1_carrier.set_waveform_shape( ::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape::play );
 
-   const int sample_count = 4096;
-   double samples[sample_count];
+   // Play f(t) = sin(t/(2*pi)) for t=[0,1) seconds at 500,000 samples / sec (500,000 samples total)
+   const int sample_count = 500000;
+   double samples[sample_count] = {0.0};
+
+   const double t_initial_sec = 0.0;
+   const double t_final_sec = 1.0;
+   const double t_sample = (t_final_sec - t_initial_sec) / sample_count;
+   const double pi = 3.14159;
+
    for( int n = 0; n < sample_count; n++ )
    {
-      samples[n] = 2.0*n/4095-1;
+      double t = static_cast<double>(n) * t_sample;
+      samples[n] = sin( 2.0 * pi * t );
    }
 
-   ao1_carrier.enable();
-   ao1_carrier.set_waveform_shape( ::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape::custom );
-   ao1_carrier.set_data( samples, sample_count );
-   ao1_carrier.set_frequency_hz( 10.0e3 );
+   ao1_carrier.set_frequency_hz( 500e3 );
    ao1_carrier.set_amplitude_volts( 2.0 );
+
+   int sent_samples_count = 0;
+   int next_send_samples_count = 0;
+
+   //next_send_samples_count = std::min( ao1_carrier.get_max_data_samples(), sample_count - sent_samples_count );
+   //std::cout << "set_data( " << next_send_samples_count << " )" << std::endl;
+   //ao1_carrier.set_data( &samples[sent_samples_count], next_send_samples_count );
+   //sent_samples_count += next_send_samples_count;
 
    ao1.start();
 
-   for( unsigned int duration_seconds = 5; (duration_seconds = sleep( duration_seconds )) > 0; );
+   while( sample_count > sent_samples_count )
+   {
+      int free_sample_count = 0;
+      int lost_sample_count = 0;
+      int corrupted_sample_count = 0;
+
+      ao1.get_status();
+      ao1_carrier.get_play_status( free_sample_count, lost_sample_count, corrupted_sample_count );
+
+      if( lost_sample_count > 0 )
+      {
+         std::cout << "Lost " << lost_sample_count << " samples" << std::endl;
+      }
+
+      if( corrupted_sample_count > 0 )
+      {
+         std::cout << "Corrupted " << corrupted_sample_count << " samples" << std::endl;
+      }
+
+      next_send_samples_count = std::min( free_sample_count, sample_count - sent_samples_count );
+
+      if( next_send_samples_count > 0 )
+      {
+//         std::cout << "write_play_samples( " << next_send_samples_count << " )" << std::endl;
+         ao1_carrier.write_play_samples( &samples[sent_samples_count], next_send_samples_count );
+      }
+
+      sent_samples_count += next_send_samples_count;
+   }
    
    delete p_open_device;
    p_open_device = 0;

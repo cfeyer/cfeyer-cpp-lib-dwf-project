@@ -76,6 +76,13 @@ void Channel::reset()
 }
 
 
+void Channel::get_status()
+{
+   DwfState state;
+   DWF_CALL_WRAPPER( FDwfAnalogOutStatus( m_device_descriptor, m_channel_index, &state ) );
+}
+
+
 ::cfeyer::cpp_api_dwf::analog_output::Carrier_Component_Interface * Channel::get_carrier_component() const
 {
    return mp_carrier_component;
