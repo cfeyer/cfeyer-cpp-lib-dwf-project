@@ -83,10 +83,10 @@ int main( int argc, char * argv[] )
    int sent_samples_count = 0;
    int next_send_samples_count = 0;
 
-   //next_send_samples_count = std::min( ao1_carrier.get_max_data_samples(), sample_count - sent_samples_count );
-   //std::cout << "set_data( " << next_send_samples_count << " )" << std::endl;
-   //ao1_carrier.set_data( &samples[sent_samples_count], next_send_samples_count );
-   //sent_samples_count += next_send_samples_count;
+   next_send_samples_count = std::min( ao1_carrier.get_max_data_samples(), sample_count - sent_samples_count );
+   std::cout << "set_data( " << next_send_samples_count << " )" << std::endl;
+   ao1_carrier.set_data( &samples[sent_samples_count], next_send_samples_count );
+   sent_samples_count += next_send_samples_count;
 
    ao1.start();
 
