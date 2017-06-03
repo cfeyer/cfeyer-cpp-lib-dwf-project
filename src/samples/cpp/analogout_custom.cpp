@@ -66,7 +66,7 @@ int main( int argc, char * argv[] )
 
    ao1_carrier.enable();
    ao1_carrier.set_waveform_shape( ::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape::custom );
-   ao1_carrier.write( samples, sample_count );
+   ao1_carrier.set_data( samples, sample_count );
    ao1_carrier.set_sample_frequency_hz( 10.0e3 );
    ao1_carrier.set_amplitude_volts( 2.0 );
 

@@ -103,7 +103,7 @@ void Abstract_Signal_Component::set_waveform_shape( ::cfeyer::cpp_api_dwf::analo
 }
 
 
-void Abstract_Signal_Component::write( double samples[], int sample_count )
+void Abstract_Signal_Component::set_data( double samples[], int sample_count )
 {
    DWF_CALL_WRAPPER( FDwfAnalogOutNodeDataSet( m_device_descriptor,
                                                m_channel_index,
