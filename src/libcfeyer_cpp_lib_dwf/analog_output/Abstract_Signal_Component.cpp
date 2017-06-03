@@ -36,11 +36,7 @@ Abstract_Signal_Component::Abstract_Signal_Component( HDWF device_descriptor,
                            int node_index ) :
    m_device_descriptor( device_descriptor ),
    m_channel_index( channel_index ),
-   m_node_index( node_index ),
-   m_min_sample_frequency_hz( query_min_sample_frequency_hz() ),
-   m_max_sample_frequency_hz( query_max_sample_frequency_hz() ),
-   m_min_amplitude( query_min_amplitude() ),
-   m_max_amplitude( query_max_amplitude() )
+   m_node_index( node_index )
 {
 }
 
@@ -162,13 +158,31 @@ double Abstract_Signal_Component::get_sample_frequency_hz() const
 
 double Abstract_Signal_Component::get_min_sample_frequency_hz() const
 {
-   return m_min_sample_frequency_hz;
+   double min = 0.0;
+   double max = 0.0;
+
+   DWF_CALL_WRAPPER( FDwfAnalogOutNodeFrequencyInfo( m_device_descriptor,
+                                                     m_channel_index,
+                                                     m_node_index,
+                                                     &min,
+                                                     &max ) );
+
+   return min;
 }
 
 
 double Abstract_Signal_Component::get_max_sample_frequency_hz() const
 {
-   return m_max_sample_frequency_hz;
+   double min = 0.0;
+   double max = 0.0;
+
+   DWF_CALL_WRAPPER( FDwfAnalogOutNodeFrequencyInfo( m_device_descriptor,
+                                                     m_channel_index,
+                                                     m_node_index,
+                                                     &min,
+                                                     &max ) );
+
+   return max;
 }
 
 
@@ -195,48 +209,6 @@ double Abstract_Signal_Component::get_amplitude() const
 
 double Abstract_Signal_Component::get_min_amplitude() const
 {
-   return m_min_amplitude;
-}
-
-
-double Abstract_Signal_Component::get_max_amplitude() const
-{
-   return m_max_amplitude;
-}
-
-
-double Abstract_Signal_Component::query_min_sample_frequency_hz() const
-{
-   double min = 0.0;
-   double max = 0.0;
-
-   DWF_CALL_WRAPPER( FDwfAnalogOutNodeFrequencyInfo( m_device_descriptor,
-                                                     m_channel_index,
-                                                     m_node_index,
-                                                     &min,
-                                                     &max ) );
-
-   return min;
-}
-
-
-double Abstract_Signal_Component::query_max_sample_frequency_hz() const
-{
-   double min = 0.0;
-   double max = 0.0;
-
-   DWF_CALL_WRAPPER( FDwfAnalogOutNodeFrequencyInfo( m_device_descriptor,
-                                                     m_channel_index,
-                                                     m_node_index,
-                                                     &min,
-                                                     &max ) );
-
-   return max;
-}
-
-
-double Abstract_Signal_Component::query_min_amplitude() const
-{
    double min = 0.0;
    double max = 0.0;
 
@@ -250,7 +222,7 @@ double Abstract_Signal_Component::query_min_amplitude() const
 }
 
 
-double Abstract_Signal_Component::query_max_amplitude() const
+double Abstract_Signal_Component::get_max_amplitude() const
 {
    double min = 0.0;
    double max = 0.0;

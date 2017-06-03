@@ -78,20 +78,6 @@ class Abstract_Signal_Component : virtual public ::cfeyer::cpp_api_dwf::analog_o
       double get_amplitude() const;
       double get_min_amplitude() const;
       double get_max_amplitude() const;
-
-   private:
-
-      const double m_min_sample_frequency_hz;
-      const double m_max_sample_frequency_hz;
-
-      const double m_min_amplitude;
-      const double m_max_amplitude;
-
-      double query_min_sample_frequency_hz() const;
-      double query_max_sample_frequency_hz() const;
-
-      double query_min_amplitude() const;
-      double query_max_amplitude() const;
 };
 
 } // namespace analog_output
