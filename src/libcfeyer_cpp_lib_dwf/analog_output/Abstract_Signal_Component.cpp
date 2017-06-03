@@ -113,6 +113,32 @@ void Abstract_Signal_Component::set_data( double samples[], int sample_count )
 }
 
 
+int Abstract_Signal_Component::get_min_data_samples() const
+{
+   int min = 0;
+   int max = 0;
+   DWF_CALL_WRAPPER( FDwfAnalogOutNodeDataInfo( m_device_descriptor,
+                                                m_channel_index,
+                                                m_node_index,
+                                                &min,
+                                                &max ) );
+   return min;
+}
+
+
+int Abstract_Signal_Component::get_max_data_samples() const
+{
+   int min = 0;
+   int max = 0;
+   DWF_CALL_WRAPPER( FDwfAnalogOutNodeDataInfo( m_device_descriptor,
+                                                m_channel_index,
+                                                m_node_index,
+                                                &min,
+                                                &max ) );
+   return max;
+}
+
+
 void Abstract_Signal_Component::set_sample_frequency_hz( double frequency )
 {
    DWF_CALL_WRAPPER( FDwfAnalogOutNodeFrequencySet( m_device_descriptor,

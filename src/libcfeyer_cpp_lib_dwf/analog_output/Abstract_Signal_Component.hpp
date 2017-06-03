@@ -56,6 +56,8 @@ class Abstract_Signal_Component : virtual public ::cfeyer::cpp_api_dwf::analog_o
       ::cfeyer::cpp_api_dwf::analog_output::Waveform_Shape::Enum get_waveform_shape() const override;
 
       void set_data( double samples[], int sample_count ) override;
+      int get_min_data_samples() const override;
+      int get_max_data_samples() const override;
 
       void set_sample_frequency_hz( double frequency ) override;
       double get_sample_frequency_hz() const override;
